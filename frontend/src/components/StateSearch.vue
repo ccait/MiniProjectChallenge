@@ -1,8 +1,15 @@
 <template>
     <div>
-        <input v-model="search" placeholder="Start typing..." @input="fetchStates">
-        <div v-for="(state, index) in states" :key="index" @click="selectState(state)">
-            {{ state }}
+        <div class="input-container">
+
+        <input v-model="search" placeholder="Start typing..." @input="fetchStates" class="wide-input">
+        <ul v-if="states.length > 0" class="dropdown">
+            <li v-for="(state, index) in states" :key="index"
+                @click="selectState(state)"
+                :class="{ 'highlighted': state === selectedState }">{{ state }}
+            </li>
+        </ul>
+
         </div>
         
         <GmapMap
@@ -46,7 +53,9 @@ export default {
     data() {
         return {
             search: '',
-            states: []
+            states: [],
+            
+        selectedState: null,
         };
     },
 
@@ -94,6 +103,7 @@ export default {
         // and emit an event to update the parent component
         async selectState(state) {
             this.search = state
+            this.selectedState = state;
             const geocoder = new this.google.maps.Geocoder();
             const result = await geocoder.geocode({ address: state });
             const position = result.results[0].geometry.location;
@@ -102,3 +112,38 @@ export default {
     },
     };
 </script>
+
+<style scoped>
+.input-container {
+    text-align: left;
+    position: relative;
+    margin-left: 10px;
+    margin-bottom: 30px;
+}
+
+.wide-input {
+    width: 400px; 
+    height: 25px;
+}
+
+.highlighted {
+    background-color: #4b7fad;
+}
+
+.dropdown {
+    left: 20;
+    top: 100%;
+    margin-top: 0;
+    list-style: none;
+    width: 200px;  
+    padding: 0; 
+    background-color: #f6f6f6;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+    border: 1px solid #ccc;  
+    border-radius: 1px; 
+}
+.dropdown li:hover {
+    background-color: #ddd;
+}
+
+</style>
