@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@apollo/client": "^3.7.15",
+    "graphql": "^16.6.0",
+    "vue2-google-maps": "^0.10.7"
+  }
+}
