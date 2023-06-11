@@ -93,6 +93,7 @@ export default {
         // Select a state from the suggestion dropdown (by mouse click)
         // and emit an event to update the parent component
         async selectState(state) {
+            this.search = state
             const geocoder = new this.google.maps.Geocoder();
             const result = await geocoder.geocode({ address: state });
             const position = result.results[0].geometry.location;
