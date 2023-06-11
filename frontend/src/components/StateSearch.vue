@@ -1,9 +1,9 @@
 <template>
     <div>
         <input v-model="search" placeholder="Start typing..." @input="fetchStates">
-        <div v-for="state in states" :key="state">
-        {{ state }}
-    </div>
+        <div v-for="(state, index) in states" :key="index" @click="selectState(state)">
+            {{ state }}
+        </div>
 
     <GmapMap
     :center="{lat: 37.0902, lng: -95.7129}"
@@ -75,6 +75,8 @@
         this.geocodeState(this.states[0]);
       }
     },
+
+    // Emit an event instead of mutating prop directly
     async geocodeState(state) {
       try {
         const geocoder = new this.google.maps.Geocoder();
@@ -85,7 +87,14 @@
       } catch (error) {
         console.error('Error geocoding state:', error);
       }
-    }
+    },
+    // Emit an event instead of mutating prop directly
+    async selectState(state) {
+    const geocoder = new this.google.maps.Geocoder();
+    const result = await geocoder.geocode({ address: state });
+    const position = result.results[0].geometry.location;
+    this.$emit('update:selectedStates', [{ name: state, position }]);
+  }
   },
     };
 </script>
