@@ -3,7 +3,7 @@ const { ApolloServer, gql } = require('apollo-server-express');
 
 const app = express();
 
-//U.S. states and territories List
+// U.S. states and territories List
 const states = [
   "Alabama",
   "Alaska",
@@ -63,14 +63,14 @@ const states = [
   "U.S. Virgin Islands"
 ];
 
-// Define your GraphQL schema
+// GraphQL schema
 const typeDefs = gql`
   type Query {
     states(name: String!): [String!]!
   }
 `;
 
-// Define your resolvers
+// Resolvers
 const resolvers = {
   Query: {
     states: (parent, args, context, info) => {
