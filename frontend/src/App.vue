@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <StateSearch />
+    <StateSearch :selectedStates="selectedStates" @update:selectedStates="updateSelectedStates"/>
   </div>
 </template>
 
@@ -11,6 +11,16 @@ export default {
   name: 'App',
   components: {
     StateSearch
+  },
+  data() {
+    return {
+      selectedStates: []
+    };
+  },
+  methods: {
+    updateSelectedStates(newStates) {
+      this.selectedStates = newStates;
+    }
   }
 }
 </script>
